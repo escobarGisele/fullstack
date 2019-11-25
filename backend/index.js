@@ -10,9 +10,22 @@ app.set('port', 3000);
 
 //middelwares
 app.use(morgan('dev'));
-multer.diskStorage({
-    destination: path.join(__dirname,'public/uploads')
+const storage= multer.diskStorage({
+    destination: path.join(__dirname,'public/uploads'),
+    filename(req,file, cb){
+        cb(null, newDate().getTime() +  path.extname(file.originalname));
+    } 
 });
+app.use(multer({storage}).single('image'));
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+
+//routers
+app.use( '/api/books',require('./routes/books'));
+
+//static files 
+app.use(express.static(path.join(__dirname, 'public ')));
+
 //start server
 app.listen(app.get('port'),()=>{
     console.log('server on port', app.get('port'))
