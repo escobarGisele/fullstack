@@ -8,4 +8,5 @@ const BookSchema= new BookSchema({
     imagePath: {type: String, required: true},
     created_at: {type: Date, default: Date.now}
 });
+
  module.exports = model('Book', BookSchema); 
